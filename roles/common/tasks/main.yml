@@ -1,0 +1,5 @@
+---
+
+- import_tasks: k8s.yml
+
+...
