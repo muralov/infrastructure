@@ -1,0 +1,15 @@
+---
+
+- name: get the linux distro
+  shell: cat /etc/*-release 
+  register: result
+
+- debug: msg={{ result.stdout_lines }}
+
+- import_tasks: odroid.yml
+  when: "inventory_hostname is search('odroid64')"
+
+- import_tasks: raspberry.yml
+  when: "inventory_hostname is search('raspberrypi')"
+
+...

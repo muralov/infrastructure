@@ -1,0 +1,26 @@
+---
+
+- name: get the docker repository key for odroid
+  shell: "{{ item }}"
+  loop:
+    - apt-get update
+    - apt-get install apt-transport-https ca-certificates curl software-properties-common
+    - curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+    - apt-key fingerprint 0EBFCD88
+
+- name: add docker repository for odroid
+  shell: add-apt-repository "deb [arch=arm64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
+
+- name: install docker-ce for odroid
+  shell: "{{ item }}"
+  loop:
+    - apt-get update
+    - apt-get install docker-ce 
+
+- name: check if docker is running
+  shell: systemctl status docker
+  register: result
+
+- debug: msg="{{ result.stdout_lines }}"
+
+...

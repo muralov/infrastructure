@@ -10,14 +10,19 @@
 
  Manual steps for odroid:
  * internet connection (wifi credentials)
+
  * start ssh
- * install docker armv7 
+   * install ssh with "sudo apt install openssh-server"
+
  * install kubernetes
 
  Manual steps for raspberrypi:
  * internet connection (wifi credentials)
+
  * enable & start ssh
- * install docker armv8
+    - sudo systemctl enable ssh
+    - sudo systemctl start ssh
+
  * install kubernetes
 
 

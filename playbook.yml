@@ -1,0 +1,13 @@
+---
+
+# Playbook to bring infrastructure and setup k8s cluster
+
+- hosts: app_nodes
+  gather_facts: True
+  become: yes
+  become_user: root 
+  roles:
+     - common
+     - setup
+
+...

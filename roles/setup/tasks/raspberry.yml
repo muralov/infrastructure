@@ -1,0 +1,22 @@
+---
+
+- name: get the repository key for raspberry
+  shell: curl -fsSL https://download.docker.com/linux/raspbian/gpg | sudo apt-key add -
+
+- name: add the docker repository for raspberry
+  shell: echo "deb [arch=armhf] https://download.docker.com/linux/raspbian $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list
+
+- name: install libltdl7 for raspberry
+  shell: apt-get install libltdl7
+
+- name: Install docker-ce for raspberry
+  apt:
+    deb: https://download.docker.com/linux/raspbian/dists/stretch/pool/stable/armhf/docker-ce_18.03.0~ce-0~raspbian_armhf.deb
+
+- name: check if docker is running
+  shell: systemctl status docker
+  register: result
+
+- debug: msg="{{ result.stdout_lines }}"
+
+...
