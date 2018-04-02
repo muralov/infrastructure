@@ -42,9 +42,9 @@
 #    state: present
   shell: apt-get install {{ item }} -y --allow-downgrades
   loop:
-    - kubelet=1.8.3-00
-    - kubeadm=1.8.3-00
-    - kubectl=1.8.3-00
+    - kubelet #=1.8.3-00
+    - kubeadm #=1.8.3-00
+    - kubectl #=1.8.3-00
   tags: k8s
 
 - name: disable the swaps on worker nodes
@@ -53,12 +53,13 @@
 
 - name: reset all kubeadm installed state
   shell: kubeadm reset
-  tags: k8s
+  tags: [k8s,k8s.reset]
 
 - name: create k8s cluster on master node
   block: 
     - name: initialize master node
-      shell: kubeadm init --config /home/django/Development/infrastructure/kubeadm.yaml
+#      shell: kubeadm init --config /home/django/Development/infrastructure/kubeadm.yaml
+      shell: kubeadm init --apiserver-advertise-address 192.168.178.27 --pod-network-cidr 10.244.0.0/16
       register: result  
     - debug: msg={{ result.stdout_lines }}
 
@@ -67,18 +68,19 @@
       become_user: django
 
     - name: create kube config file
-      shell: cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
+      shell: yes | cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
 
     - name: changing the owner of the kube config
       shell: chown $(id -u):$(id -g) $HOME/.kube/config
 
     - name: make kube-proxy multiplatform
-      shell: kubectl -n kube-system set image daemonset/kube-proxy kube-proxy=luxas/kube-proxy:v1.8.0
+#     shell: kubectl -n kube-system set image daemonset/kube-proxy kube-proxy=luxas/kube-proxy:v1.8.0
+      shell: kubectl apply -f "https://cloud.weave.works/k8s/net?k8s-version=$(kubectl version | base64 | tr -d '\n')&env.IPALLOC_RANGE=10.244.0.0/16"
       become_user: django
 
-    - name: deploy pod networking plugin. Install kubernetes networking extension called Weave Net.
-      shell: kubectl apply -f https://git.io/weave-kube-1.6
-      become_user: django
+#    - name: deploy pod networking plugin. Install kubernetes networking extension called Weave Net.
+#      shell: kubectl apply -f https://git.io/weave-kube-1.6
+#      become_user: django
   when: inventory_hostname is search('django-laptop')
   tags: k8s
 
