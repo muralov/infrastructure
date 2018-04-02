@@ -62,15 +62,23 @@
       register: result  
     - debug: msg={{ result.stdout_lines }}
 
-    - name: create kube config files
-      shell: "mkdir -p $HOME/.kube && cp -i /etc/kubernetes/admin.conf $HOME/.kube/config && chown $(id -u):$(id -g) $HOME/.kube/config"
+    - name: create .kube folder
+      shell: mkdir -p $HOME/.kube 
+      become_user: django
+
+    - name: create kube config file
+      shell: cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
+
+    - name: changing the owner of the kube config
+      shell: chown $(id -u):$(id -g) $HOME/.kube/config
 
     - name: make kube-proxy multiplatform
-      shell: "kubectl -n kube-system set image daemonset/kube-proxy kube-proxy=luxas/kube-proxy:v1.8.0"
-      ignore_errors: yes
+      shell: kubectl -n kube-system set image daemonset/kube-proxy kube-proxy=luxas/kube-proxy:v1.8.0
+      become_user: django
 
     - name: deploy pod networking plugin. Install kubernetes networking extension called Weave Net.
-      shell: "kubectl apply -f https://git.io/weave-kube-1.6"
+      shell: kubectl apply -f https://git.io/weave-kube-1.6
+      become_user: django
   when: inventory_hostname is search('django-laptop')
   tags: k8s
 

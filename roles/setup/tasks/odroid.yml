@@ -7,20 +7,34 @@
     - apt-get install apt-transport-https ca-certificates curl software-properties-common
     - curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
     - apt-key fingerprint 0EBFCD88
+  tags: [setup,setup.odroid] 
 
 - name: add docker repository for odroid
   shell: add-apt-repository "deb [arch=arm64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
+  tags: [setup,setup.odroid] 
 
 - name: install docker-ce for odroid
-  shell: "{{ item }}"
-  loop:
-    - apt-get update
-    - apt-get install docker-ce 
+  apt:
+    name: docker-ce=17.09.0~ce-0~ubuntu
+    state: present
+  tags: [setup,setup.odroid] 
+
+- name: Run the equivalent of "apt-get update" as a separate step
+  apt:
+    update_cache: yes
+  tags: k8s
+
+#  shell: "{{ item }}"
+#  loop:
+#    - apt-get update
+#    - apt-get install docker-ce 
 
 - name: check if docker is running
   shell: systemctl status docker
   register: result
+  tags: [setup,setup.odroid] 
 
 - debug: msg="{{ result.stdout_lines }}"
+  tags: [setup,setup.odroid] 
 
 ...

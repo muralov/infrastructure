@@ -8,15 +8,13 @@
   become_user: root 
   roles:
     - common
-  tags:
-    - common
+  tags: common
 
-- hosts: app_nodes
+- hosts: worker_nodes
   gather_facts: True
   become: yes
   become_user: root 
   roles:
     - setup
-  tags:
-    - setup
+  tags: setup
 ...
