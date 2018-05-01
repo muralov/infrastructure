@@ -1,0 +1,19 @@
+---
+
+- name: deploy Postgres DB
+  shell: kubectl apply -f roles/deploy/files/deployment-postgres.yml
+  tags: deploy
+
+- name: deploy Mongo DB
+  shell: kubectl apply -f roles/deploy/files/deployment-mongodb.yml
+  tags: deploy
+
+- name: deploy meals microservice
+  shell: kubectl apply -f roles/deploy/files/deployment-meals.yml
+  tags: deploy
+
+- name: deploy planner microservice
+  shell: kubectl apply -f roles/deploy/files/deployment-planner.yml
+  tags: deploy
+
+...
