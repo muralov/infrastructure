@@ -25,7 +25,9 @@
 
  * install kubernetes
 
- Troubleshooting:  if you get an issue like this https://github.com/coreos/quartermaster/issues/79, please have a look at the solutions in this issue.
+#### Troubleshooting
+  
+ In case kube-proxy pod on odroid or raspberrypi doesn't run, try to apply daemonset-arm64.yaml on odroid and daemonset-armhf.yaml on raspberry, which should fix it. Please also look at the issue https://github.com/coreos/quartermaster/issues/79.
 
 
 # Infrastructure setup with Minikube
