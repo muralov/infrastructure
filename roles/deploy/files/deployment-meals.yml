@@ -23,6 +23,6 @@ spec:
             - name: POSTGRES_DB_PORT
               value: "5432"
           name: meals
-          image: muralov/meals:v1.0.0
+          image: muralov/meals:v1.0.3
           ports:
             - containerPort: 8080

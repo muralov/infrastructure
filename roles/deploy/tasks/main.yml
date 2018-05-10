@@ -18,7 +18,7 @@
       shell: kubectl apply -f {{ playbook_dir }}/roles/deploy/files/deployment-planner.yml
   when: delete is not defined
 
-- name: delete all k8s resources
+- name: delete Meals Planner App resources
   shell: kubectl delete -f {{ item }}
   loop:
     - "{{ playbook_dir }}/roles/deploy/files/deployment-postgres.yml"
