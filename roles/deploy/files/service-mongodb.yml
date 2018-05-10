@@ -1,0 +1,13 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: planner-db
+spec:
+  selector:
+    app: planner
+    tier: database
+    version: v1.0.0
+  ports:
+    - protocol: TCP
+      port: 27017
+      targetPort: 27017

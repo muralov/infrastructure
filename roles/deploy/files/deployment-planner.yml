@@ -17,7 +17,14 @@ spec:
         version: v1.0.0
     spec:
       containers:
-        - name: planner
-          image: muralov/planner:v1.0.0
+        - env:
+            - name: MONGODB_HOST
+              value: "planner-db"
+            - name: MONGODB_PORT
+              value: "27017"
+            - name: MONGODB_DATABASE_NAME
+              value: "planner"
+          name: planner
+          image: muralov/planner:v1.0.1
           ports:
             - containerPort: 8081

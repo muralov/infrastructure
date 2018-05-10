@@ -11,6 +11,10 @@
     - name: deploy Planner DB
       shell: kubectl apply -f {{ playbook_dir }}/roles/deploy/files/deployment-mongodb.yml
 
+    - name: create planner DB service
+      shell: kubectl apply -f {{ playbook_dir }}/roles/deploy/files/service-mongodb.yml
+
+
     - name: deploy Meals Service
       shell: kubectl apply -f {{ playbook_dir }}/roles/deploy/files/deployment-meals.yml
 
