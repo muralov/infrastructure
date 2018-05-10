@@ -2,14 +2,12 @@
 
 - name: delete existing minikube cluster for clean-up
   shell: minikube delete
-  tags: minikube
+  ignore_errors: True
 
 - name: delete kubeadm files
   shell: kubeadm reset
-  tags: minikube
 
 - name: start minikube with a new k8s cluster
   shell: minikube start --vm-driver=none
-  tags: minikube
 
 ...

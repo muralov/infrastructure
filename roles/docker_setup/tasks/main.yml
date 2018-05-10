@@ -8,9 +8,9 @@
 
 - import_tasks: odroid.yml
   when: "inventory_hostname is search('odroid64')"
-  tags: setup
+  tags: ["setup","setup.odroid"]
 
 - import_tasks: raspberry.yml
   when: "inventory_hostname is search('raspberrypi')"
-  tags: setup
+  tags: ["setup","setup.raspberry"]
 ...

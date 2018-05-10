@@ -1,6 +1,5 @@
 ---
 
-#- import_tasks: k8s.yml
+# common tasks like installing open-ssh, enabling wifi, etc.
 
-- import_tasks: minikube.yml
 ...

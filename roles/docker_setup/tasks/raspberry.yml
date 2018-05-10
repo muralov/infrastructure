@@ -2,33 +2,33 @@
 
 - name: get the repository key for raspberry
   shell: curl -fsSL https://download.docker.com/linux/raspbian/gpg | sudo apt-key add -
-  tags: [setup,setup.pi]
+  when: delete is not defined
 
 - name: add the docker repository for raspberry
   shell: echo "deb [arch=armhf] https://download.docker.com/linux/raspbian $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list
-  tags: [setup,setup.pi]
+  when: delete is not defined
 
 - name: install libltdl7 for raspberry
   shell: apt-get install libltdl7
-  tags: [setup,setup.pi]
+  when: delete is not defined
 
 - name: Install docker-ce for raspberry
   apt:
     deb: https://download.docker.com/linux/raspbian/dists/stretch/pool/stable/armhf/docker-ce_17.09.0~ce-0~raspbian_armhf.deb
-  tags: [setup,setup.pi]
+  when: delete is not defined
 
 - name: check if docker is running
   shell: systemctl status docker
   register: result
-  tags: [setup,setup.pi]
+  when: delete is not defined
 
 - debug: msg="{{ result.stdout_lines }}"
-  tags: [setup,setup.pi]
 
 - name: uninstall docker-ce
   apt: 
     name: docker-ce
     state: absent
-  tags: [setup,setup.pi.delete]
+  when: delete is defined
+  tags: [setup.pi.delete]
 
 ...

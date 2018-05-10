@@ -1,31 +1,31 @@
 ---
-- name: create k8s cluster on master node
+
+- name: deploy Meals Planner App resources
   block:
     - name: deploy Meals DB
-      shell: kubectl apply -f roles/deploy/files/deployment-postgres.yml
+      shell: kubectl apply -f {{ playbook_dir }}/roles/deploy/files/deployment-postgres.yml
 
     - name: create meals DB service
-      shell: kubectl apply -f roles/deploy/files/service-postgres.yml
+      shell: kubectl apply -f {{ playbook_dir }}/roles/deploy/files/service-postgres.yml
 
     - name: deploy Planner DB
-      shell: kubectl apply -f roles/deploy/files/deployment-mongodb.yml
+      shell: kubectl apply -f {{ playbook_dir }}/roles/deploy/files/deployment-mongodb.yml
 
     - name: deploy Meals Service
-      shell: kubectl apply -f roles/deploy/files/deployment-meals.yml
+      shell: kubectl apply -f {{ playbook_dir }}/roles/deploy/files/deployment-meals.yml
 
     - name: deploy Planner Service
-      shell: kubectl apply -f roles/deploy/files/deployment-planner.yml
+      shell: kubectl apply -f {{ playbook_dir }}/roles/deploy/files/deployment-planner.yml
   when: delete is not defined
-  tags: deploy
 
 - name: delete all k8s resources
   shell: kubectl delete -f {{ item }}
   loop:
-    - roles/deploy/files/deployment-postgres.yml
-    - roles/deploy/files/service-postgres.yml
-    - roles/deploy/files/deployment-mongodb.yml
-    - roles/deploy/files/deployment-meals.yml
-    - roles/deploy/files/deployment-planner.yml
+    - "{{ playbook_dir }}/roles/deploy/files/deployment-postgres.yml"
+    - "{{ playbook_dir }}/roles/deploy/files/service-postgres.yml"
+    - "{{ playbook_dir }}/roles/deploy/files/deployment-mongodb.yml"
+    - "{{ playbook_dir }}/roles/deploy/files/deployment-meals.yml"
+    - "{{ playbook_dir }}/roles/deploy/files/deployment-planner.yml"
   when: delete is defined
-  tags: deploy
+
 ...
