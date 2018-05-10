@@ -5,14 +5,14 @@ metadata:
 spec:
   selector:
     matchLabels:
-      app: postgres
+      app: meals
   replicas: 1 # tells deployment to run 2 pods matching the template
   template: # create pods using pod definition in this template
     metadata:
       # unlike pod-nginx.yaml, the name is not included in the meta data as a unique name is
       # generated from the deployment name
       labels:
-        app: postgres
+        app: meals
         tier: database
         version: v1.0.0
     spec:
@@ -26,7 +26,7 @@ spec:
           - mountPath: /var/lib/postgresql/data
             name: postgres-volume
         ports:
-        - containerPort: 5432
+          - containerPort: 5432
       volumes:
         - name: postgres-volume
           hostPath:

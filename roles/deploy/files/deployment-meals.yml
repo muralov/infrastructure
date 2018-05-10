@@ -13,11 +13,16 @@ spec:
       # generated from the deployment name
       labels:
         app: meals
-        tier: database
+        tier: service
         version: v1.0.0
     spec:
       containers:
-        - name: meals
+        - env:
+            - name: POSTGRES_DB_HOST
+              value: "meals-db"
+            - name: POSTGRES_DB_PORT
+              value: "5432"
+          name: meals
           image: muralov/meals:v1.0.0
           ports:
             - containerPort: 8080

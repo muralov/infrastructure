@@ -13,7 +13,7 @@ spec:
       # generated from the deployment name
       labels:
         app: planner
-        tier: database
+        tier: service
         version: v1.0.0
     spec:
       containers:
