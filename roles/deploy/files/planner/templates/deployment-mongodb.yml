@@ -1,20 +1,23 @@
 apiVersion: apps/v1 # for versions before 1.9.0 use apps/v1beta2
 kind: Deployment
 metadata:
-  name: mongo-deployment
+  name: mongodb
+  namespace: {{ .Values.namespace }}
 spec:
   selector:
-    matchLabels:
-      app: planner
+    matchLabels: # selects the pods with the following labels
+      app: {{ .Values.name }}
+      tier: {{ .Values.database.labels.tier }}
+      version: {{ .Values.database.labels.version }}
   replicas: 1 # tells deployment to run 2 pods matching the template
   template: # create pods using pod definition in this template
     metadata:
       # unlike pod-nginx.yaml, the name is not included in the meta data as a unique name is
       # generated from the deployment name
       labels:
-        app: planner
-        tier: database
-        version: v1.0.0
+        app: {{ .Values.name }}
+        tier: {{ .Values.database.labels.tier }}
+        version: {{ .Values.database.labels.version }}
     spec:
       containers:
       - name: mongo
@@ -23,7 +26,7 @@ spec:
           - mountPath: /data/db
             name: mongo-volume
         ports:
-        - containerPort: 27017
+        - containerPort: {{ .Values.database.port }}
       volumes:
         - name: mongo-volume
           hostPath:

@@ -28,6 +28,7 @@
     - "{{ playbook_dir }}/roles/deploy/files/deployment-postgres.yml"
     - "{{ playbook_dir }}/roles/deploy/files/service-postgres.yml"
     - "{{ playbook_dir }}/roles/deploy/files/deployment-mongodb.yml"
+    - "{{ playbook_dir }}/roles/deploy/files/service-mongodb.yml"
     - "{{ playbook_dir }}/roles/deploy/files/deployment-meals.yml"
     - "{{ playbook_dir }}/roles/deploy/files/deployment-planner.yml"
   when: delete is defined

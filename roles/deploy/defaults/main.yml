@@ -1,0 +1,12 @@
+---
+
+# create namespace
+# $ kubectl create namespace meals-planner
+
+# deploy the meals service
+# $ helm install roles/deploy/files/meals/ --set namespace=meals-planner --name meals-release
+
+# deploy the planner service
+# $ helm install roles/deploy/files/planner/ --set namespace=meals-planner --name planner-release
+
+...

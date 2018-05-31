@@ -1,0 +1,35 @@
+apiVersion: apps/v1 # for versions before 1.9.0 use apps/v1beta2
+kind: Deployment
+metadata:
+  name: {{ .Values.service.name }}
+  namespace: {{ .Values.namespace }}
+spec:
+  selector:
+    matchLabels:
+      app: {{ .Values.name }}
+      tier: {{ .Values.service.labels.tier }}
+      version: {{ .Values.service.labels.version }}
+  replicas: 1 # tells deployment to run 2 pods matching the template
+  template: # create pods using pod definition in this template
+    metadata:
+      # unlike pod-nginx.yaml, the name is not included in the meta data as a unique name is
+      # generated from the deployment name
+      labels:
+        app: {{ .Values.name }}
+        tier: {{ .Values.service.labels.tier }}
+        version: {{ .Values.service.labels.version }}
+    spec:
+      containers:
+        - env:
+            - name: MEALS_SERVICE_PORT
+              value: "{{ .Values.service.port }}"
+            - name: POSTGRES_DB_HOST
+              value: "{{ .Values.database.host }}"
+            - name: POSTGRES_DB_NAME
+              value: "{{ .Values.database.name }}"
+            - name: POSTGRES_DB_PORT
+              value: "{{ .Values.database.port }}"
+          name: meals
+          image: muralov/meals:v1.0.3
+          ports:
+            - containerPort: {{ .Values.service.port }}

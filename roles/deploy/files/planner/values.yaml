@@ -1,0 +1,15 @@
+name: planner
+namespace: default
+database:
+  name: planner
+  host: planner-db
+  port: 27017
+  labels:
+    tier: database
+    version: v1.0.0
+service:
+  name: planner
+  port: 8081
+  labels:
+    tier: service
+    version: v1.0.0

@@ -1,0 +1,15 @@
+name: meals
+namespace: default
+database:
+  name: food
+  host: meals-db
+  port: 5432
+  labels:
+    tier: database
+    version: v1.0.0
+service:
+  name: meals
+  port: 8080
+  labels:
+    tier: service
+    version: v1.0.0

@@ -1,0 +1,18 @@
+---
+
+# Download your desired version
+# wget https://storage.googleapis.com/kubernetes-helm/helm-v2.9.1-linux-amd64.tar.gz
+
+# Unpack it (tar -zxvf helm-v2.0.0-linux-amd64.tgz)
+# cd {helm download folder} && tar -zxvf helm-v2.0.0-linux-amd64.tgz
+
+# Find the helm binary in the unpacked directory, and move it to its desired destination (mv linux-amd64/helm /usr/local/bin/helm)
+# mv {helm download folder}/linux-amd64/helm /usr/local/bin/helm
+
+# To find out which cluster Tiller would install to, you can run kubectl config current-context or kubectl cluster-info.
+# kubectl config current-context
+
+# Once you have Helm ready, you can initialize the local CLI and also install Tiller into your Kubernetes cluster in one step
+# helm init
+
+...
