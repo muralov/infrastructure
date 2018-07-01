@@ -9,26 +9,31 @@
     src: https://storage.googleapis.com/kubernetes-helm/helm-v2.9.1-linux-amd64.tar.gz
     dest: /tmp
     remote_src: yes
-  tags: helm.from-scratch
+  tags: helm.install
 
 # Find the helm binary in the unpacked directory, and move it to its desired destination (mv linux-amd64/helm /usr/local/bin/helm)
 # mv {helm download folder}/linux-amd64/helm /usr/local/bin/helm
 
 - name: Move the helm binary to /usr/local/bin/helm
   command: mv /tmp/linux-amd64/helm /usr/local/bin/helm
-  tags: helm.from-scratch
+  tags: helm.install
+
+- name: install helm auto-completion
+  shell: source <(helm completion bash)
+  args:
+      executable: /bin/bash
+  tags: helm.install
 
 # To find out which cluster Tiller would install to, you can run kubectl config current-context or kubectl cluster-info.
 # kubectl config current-context
-- name: Display which cluster Tiller would install to
+- name: Setting current context to kube config
   command: kubectl config current-context
+  tags: helm.init
 
 # Once you have Helm ready, you can initialize the local CLI and also install Tiller into your Kubernetes cluster in one step
 # helm init
-- name: Display which cluster Tiller would install to
+- name: Initialize helm
   command: helm init
-
-- name: install helm auto-completion
-  command: source <(helm completion bash)
+  tags: helm.init
 
 ...

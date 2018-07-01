@@ -1,0 +1,25 @@
+---
+
+- name: deploy Meals Planner App resources
+  block:
+    - name: Craeate meals-planner namespace
+      shell: kubectl create namespace {{ namespace }}
+
+    - name: deploy Meals Service
+      shell: helm install roles/deploy/files/meals/ --set namespace={{ namespace }} --name {{ meals_release }}
+
+    - name: deploy Planner Service
+      shell: helm install roles/deploy/files/planner/ --set namespace={{ namespace }} --name {{ planner_release }}
+  when: delete is not defined
+
+- name: Delete {{ meals_release }} helm release
+  block:
+    - name: Delete {{ meals_release }} helm release
+      shell: helm del --purge {{ meals_release }}
+    - name: Delete {{ planner_release }} helm release
+      shell: helm del --purge {{ planner_release }}
+    - name: Delete {{ namespace }} k8s namespace
+      shell: kubectl delete namespace {{ namespace }}
+  when: delete is defined
+
+...

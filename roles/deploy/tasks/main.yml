@@ -1,36 +1,13 @@
 ---
 
-- name: deploy Meals Planner App resources
-  block:
-    - name: deploy Meals DB
-      shell: kubectl apply -f {{ playbook_dir }}/roles/deploy/files/deployment-postgres.yml
+- import_tasks: helm.yml
+  vars:
+    namespace: meals-planner
+    meals_release: meals-release
+    planner_release: planner-release
+  tags: deploy.helm
 
-    - name: create meals DB service
-      shell: kubectl apply -f {{ playbook_dir }}/roles/deploy/files/service-postgres.yml
-
-    - name: deploy Planner DB
-      shell: kubectl apply -f {{ playbook_dir }}/roles/deploy/files/deployment-mongodb.yml
-
-    - name: create planner DB service
-      shell: kubectl apply -f {{ playbook_dir }}/roles/deploy/files/service-mongodb.yml
-
-
-    - name: deploy Meals Service
-      shell: kubectl apply -f {{ playbook_dir }}/roles/deploy/files/deployment-meals.yml
-
-    - name: deploy Planner Service
-      shell: kubectl apply -f {{ playbook_dir }}/roles/deploy/files/deployment-planner.yml
-  when: delete is not defined
-
-- name: delete Meals Planner App resources
-  shell: kubectl delete -f {{ item }}
-  loop:
-    - "{{ playbook_dir }}/roles/deploy/files/deployment-postgres.yml"
-    - "{{ playbook_dir }}/roles/deploy/files/service-postgres.yml"
-    - "{{ playbook_dir }}/roles/deploy/files/deployment-mongodb.yml"
-    - "{{ playbook_dir }}/roles/deploy/files/service-mongodb.yml"
-    - "{{ playbook_dir }}/roles/deploy/files/deployment-meals.yml"
-    - "{{ playbook_dir }}/roles/deploy/files/deployment-planner.yml"
-  when: delete is defined
+- import_tasks: kubectl.yml
+  tags: deploy.kubectl
 
 ...

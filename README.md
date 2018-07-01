@@ -47,13 +47,27 @@
  $ sudo rm -r ~/.kube (remove k8s configs)
  
  
-# Installing helm
-Follow this link: https://docs.helm.sh/using_helm/#installing-helm
-Note: you must install helm for root as minikube runs only with root user.
+ # Ansible Tasks
  
- # Deploying the meals-planner app
- deploying meals Microservice: 
- $ helm install roles/deploy/files/meals/ --set namespace=meals-planner --name meals-release
+ ## Installing the minikube
+ ansible-playbook playbook-minikube.yml --ask-become-pass --tags "minikube"
  
- deploying planner Microservice
- $ helm install roles/deploy/files/planner/ --set namespace=meals-planner --name planner-release
+ ## Initialize the minikube
+  
+ ansible-playbook playbook-minikube.yml --ask-become-pass --tags "helm.init"
+ 
+ If helm is not installed yet, you have to install the helm with: 
+ $ ansible-playbook playbook-minikube.yml --ask-become-pass --tags "helm.install"  or to do both install and init run $ ansible-playbook playbook-minikube.yml --ask-become-pass --tags "helm"      
+ 
+ 
+ ## Deploying and undeploying the meals-planner app with Helm
+ 
+ ansible-playbook playbook-minikube.yml --ask-become-pass --tags "deploy.helm"
+ 
+ ansible-playbook playbook-minikube.yml --ask-become-pass --tags "deploy.helm" -e "delete=true"
+ 
+ ## with kubectl
+ 
+ ansible-playbook playbook-minikube.yml --ask-become-pass --tags "deploy.kubectl"
+ 
+ ansible-playbook playbook-minikube.yml --ask-become-pass --tags "deploy.kubectl" -e "delete=true"

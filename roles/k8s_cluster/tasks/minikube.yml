@@ -5,7 +5,7 @@
   ignore_errors: True
 
 - name: delete kubeadm files
-  shell: kubeadm reset
+  shell: echo "Y" | kubeadm reset
 
 - name: start minikube with a new k8s cluster
   shell: minikube start --vm-driver=none
