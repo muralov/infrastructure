@@ -1,10 +1,15 @@
 apiVersion: extensions/v1beta1
 kind: DaemonSet
 metadata:
+  creationTimestamp: 2018-07-08T18:10:45Z
+  generation: 1
   labels:
     k8s-app: kube-proxy
   name: kube-proxy-arm64
   namespace: kube-system
+  resourceVersion: "452"
+  selfLink: /apis/extensions/v1beta1/namespaces/kube-system/daemonsets/kube-proxy
+  uid: 3ba6e0c9-82da-11e8-91d7-b827ebcc4dbb
 spec:
   revisionHistoryLimit: 10
   selector:
@@ -20,7 +25,7 @@ spec:
       - command:
         - /usr/local/bin/kube-proxy
         - --config=/var/lib/kube-proxy/config.conf
-        image: k8s.gcr.io/kube-proxy-arm:v1.10.0
+        image: k8s.gcr.io/kube-proxy-arm64:v1.10.5
         imagePullPolicy: IfNotPresent
         name: kube-proxy
         resources: {}
@@ -65,7 +70,7 @@ spec:
           path: /lib/modules
           type: ""
         name: lib-modules
-  templateGeneration: 2
+  templateGeneration: 1
   updateStrategy:
     rollingUpdate:
       maxUnavailable: 1

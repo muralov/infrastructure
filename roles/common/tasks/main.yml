@@ -1,5 +1,20 @@
 ---
 
-# common tasks like installing open-ssh, enabling wifi, etc.
+- name: get the linux distro
+  shell: cat /etc/*-release 
+  register: result
 
+- debug: msg={{ result.stdout_lines }}
+
+- import_tasks: odroid.yml
+  when: "inventory_hostname is search('odroid64')"
+  tags: setup.odroid
+
+- import_tasks: raspberry.yml
+  when: "inventory_hostname is search('raspberrypi')"
+  tags: setup.raspberry
+
+  # installing kubelet, kubeadmin, kubectl, etc.
+- import_tasks: k8s.yml
+  tags: setup.k8s
 ...

@@ -1,18 +1,20 @@
 ---
 
-# Installing docker on all nodes
-- hosts: worker_nodes
-  gather_facts: True
-  become: yes
-  roles:
-    - docker_setup
-
-# Playbook to bring infrastructure and setup k8s cluster
+# Installing docker, kubelet, kubeadm, kubectl on al nodes
 - hosts: all
   gather_facts: True
   become: yes
   roles:
-    - k8s_cluster
+    - role: common
+      tags: setup
+
+# creating k8s cluster and deploying the app
+- hosts: master_node
+  gather_facts: True
+  # become: yes
+  roles:
+    - k8s
     - role: deploy
       tags: deploy
+
 ...

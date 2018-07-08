@@ -20,7 +20,7 @@ spec:
       - command:
         - /usr/local/bin/kube-proxy
         - --config=/var/lib/kube-proxy/config.conf
-        image: k8s.gcr.io/kube-proxy-arm:v1.10.0
+        image: k8s.gcr.io/k8s.gcr.io/kube-proxy-arm:v1.10.5
         imagePullPolicy: IfNotPresent
         name: kube-proxy
         resources: {}
@@ -39,7 +39,7 @@ spec:
       dnsPolicy: ClusterFirst
       hostNetwork: true
       nodeSelector:
-        beta.kubernetes.io/arch: armhf
+        beta.kubernetes.io/arch: arm
       restartPolicy: Always
       schedulerName: default-scheduler
       securityContext: {}

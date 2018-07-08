@@ -1,11 +1,13 @@
 ---
-
+# creating k8s on bare metal
 - import_tasks: k8s.yml
-  tags: k8s
+  tags: k8s.cluster
 
+# creating minikube k8s cluster
 - import_tasks: minikube.yml
   tags: minikube
 
+# installing helm
 - import_tasks: helm.yml
   tags: helm
 

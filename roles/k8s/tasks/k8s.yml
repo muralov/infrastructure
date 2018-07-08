@@ -1,0 +1,37 @@
+---
+
+- name: disable the swaps on worker nodes
+  shell: sudo swapoff -a
+  become: yes
+
+- name: reset all kubeadm installed state
+  shell: kubeadm reset
+  become: yes
+  tags: k8s.reset
+
+- name: create k8s cluster on master node
+  block: 
+    - name: initialize master node
+      shell: kubeadm init --apiserver-advertise-address {{ ansible_default_ipv4.address }} --pod-network-cidr 10.244.0.0/16
+      register: result  
+      become: yes
+    - debug: msg={{ result.stdout_lines }}
+
+    - name: create .kube folder
+      shell: mkdir -p {{ ansible_env.HOME }}/.kube 
+
+    - name: create kube config file
+      shell: yes | cp -i /etc/kubernetes/admin.conf {{ ansible_env.HOME }}/.kube/config
+      become: yes
+
+    - name: changing the owner of the kube config
+      shell: chown $(id -u):$(id -g) {{ ansible_env.HOME }}/.kube/config
+      become: yes
+
+    - name: deploy pod networking plugin. Install kubernetes networking extension called Weave Net.
+      shell: kubectl apply -f "https://cloud.weave.works/k8s/net?k8s-version=$(kubectl version | base64 | tr -d '\n')&env.IPALLOC_RANGE=10.244.0.0/16"
+  
+#- name: join the worker nodes
+#  shell: kubeadm join 192.168.178.44:6443 --token 2mib40.8s7ov4eofloeu6a8 --discovery-token-ca-cert-hash sha256:9d01194328b...
+
+...

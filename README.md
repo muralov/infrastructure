@@ -29,6 +29,14 @@
   
  In case kube-proxy pod on odroid or raspberrypi doesn't run, try to apply daemonset-arm64.yaml on odroid and daemonset-armhf.yaml on raspberry, which should fix it. Please also look at the issue https://github.com/coreos/quartermaster/issues/79.
 
+# Infrastructure setup with bare metal
+
+* Creating k8s cluster with raspberrypi as master and odroid as worker node
+
+$ ansible-playbook playbook.yml --ask-become-pass --tags "k8s.cluster" -i hosts  
+and some manual described in the command's result. Install waeave plugin here too.
+
+After that, you have to create a DeamonSet for odroid similar to files/deamonset-arm64.yaml in the project: oc create -f {odroid arm64 dameonset yaml}. After that you should join the odroid node. Everything is exactly described here: https://gist.github.com/squidpickles/dda268d9a444c600418da5e1641239af
 
 # Infrastructure setup with Minikube
 

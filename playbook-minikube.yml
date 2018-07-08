@@ -7,7 +7,7 @@
   gather_facts: True
   become: yes
   roles:
-    - k8s_cluster
+    - k8s
     - role: deploy
       tags: deploy
 ...

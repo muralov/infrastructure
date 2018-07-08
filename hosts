@@ -1,0 +1,5 @@
+[master_node]
+odroid64.fritz.box     ansible_connection=ssh        ansible_user=odroid
+
+[worker_nodes]
+raspberrypi.fritz.box  ansible_connection=ssh        ansible_user=pi
