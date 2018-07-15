@@ -17,4 +17,7 @@
   # installing kubelet, kubeadmin, kubectl, etc.
 - import_tasks: k8s.yml
   tags: setup.k8s
+
+- import_tasks: tools.yml
+  tags: setup.tools
 ...

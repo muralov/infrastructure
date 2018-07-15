@@ -1,0 +1,17 @@
+---
+
+- name: apt-get update
+  apt:
+    update_cache: yes
+
+- name: install git
+  shell: apt-get install git
+
+- name: install java
+  shell: apt-get install oracle-java8-jdk
+
+# Installing ansible on Raspberry PI
+
+# Installing helm on Raspberry PI
+
+...
